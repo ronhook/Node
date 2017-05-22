@@ -1,0 +1,22 @@
+node_web:
+    build: ./nginx
+    ports:
+        - 88:80
+    volumes:
+        - ./nginx/site.conf:/etc/nginx/conf.d/site.conf
+        - ./logs:/var/log/nginx
+        - ./code/public:/var/www
+    links:
+        - node
+node:
+    build: ./node
+    tty: true
+    ports:
+        - 3000:3000
+    working_dir: /
+    volumes:
+        - ./code/app:/app
+    #command: node var/www/public
+    #environment:
+    #    - PORT=3000
+    entrypoint: node /app/server.js

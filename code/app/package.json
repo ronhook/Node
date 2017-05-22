@@ -1,0 +1,10 @@
+{
+	"name"		: "node-test",
+	"version:"	: "0.0.0",
+	"main": "server.js",
+	"scripts"	: {
+		"start" : "node server.js"
+	},
+	"dependancies" : {
+	}
+}
