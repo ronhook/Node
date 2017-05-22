@@ -14,10 +14,9 @@ class ProfileLogin extends React.Component {
 	}
 	handleSubmit (e) {
 		e.preventDefault();
-		this.refs.email.setValid(this.refs.email.getValue() != '');
-		this.refs.password.setValid(this.refs.password.getValue() != '');
+		this.refs.email.setValid(this.refs.email.isValid());
+		this.refs.password.setValid(this.refs.password.isValid());
 		if (this.refs.email.getValue() == '') {
-			console.log('no good');
 			this.invalidEmail = true;
 			this.setState({
 				className: 'login invalid'
@@ -65,17 +64,37 @@ class FormInput extends React.Component{
 			valid: props.valid === undefined ? true : props.valid
 		};
 	}
+	/**
+	 * Retursn the current field value
+	 * @returns {Boolean}
+	 */
 	getValue()
 	{
 		return this.state.value;
 	}
+	isValid()
+	{
+		if (this.props.required && !this.state.value) {
+			return false;
+		}
+		return true;
+	}
+	/**
+	 * Sets the valid state
+	 * @param {Boolean} val
+	 * @returns {Void}
+	 */
 	setValid(val)
 	{
-		console.log('aha');
 		this.setState({
 			valid: val
 		});
 	}
+	/**
+	 * Handles input value changes
+	 * @param {Event} e
+	 * @returns {Void}
+	 */
 	handleChange(e){
 		this.setState({
 			value: e.target.value
@@ -84,8 +103,11 @@ class FormInput extends React.Component{
 			this.props.onChange(e.target.value);
 		}
 	}
+	/**
+	 * Renders the field
+	 * @returns {String|FormInput.props.type|Boolean}
+	 */
 	render(){
-		console.log(this.props.label, this.state);
 		return (
 			<label className={this.state.valid ? 'valid' : 'invalid'}>
 				<div>
