@@ -1,10 +1,12 @@
 {
-	"name"		: "node-test",
-	"version:"	: "0.0.0",
-	"main": "server.js",
-	"scripts"	: {
-		"start" : "node server.js"
-	},
-	"dependancies" : {
-	}
+  "name": "node-test",
+  "version:": "0.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependancies": {},
+  "dependencies": {
+    "body-parser": "^1.17.2"
+  }
 }

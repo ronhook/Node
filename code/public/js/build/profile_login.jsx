@@ -3,8 +3,10 @@ import React from 'react';
 class ProfileLogin extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit	= this.handleSubmit.bind(this);
+		this.handleChange	= this.handleChange.bind(this);
+		this.worker			= new Worker('/js/profile.js');
+		this.worker.addEventListener('message', this.doLogin.bind(this));
 		this.state = {
 			email			: false,
 			password		: false,
@@ -12,16 +14,34 @@ class ProfileLogin extends React.Component {
 			className		: 'login'
 		};
 	}
+	doLogin(e){
+		let result = e.data;
+		console.log(result);
+		if (!result.success) {
+			console.log('There was an error');
+		} else {
+			console.log('all good');
+		}
+	};
 	handleSubmit (e) {
 		e.preventDefault();
-		this.refs.email.setValid(this.refs.email.isValid());
-		this.refs.password.setValid(this.refs.password.isValid());
-		if (this.refs.email.getValue() == '') {
+		//console.log('value:', this.refs.email.value, this.refs.email.valid);
+		this.refs.email.valid		= this.refs.email.valid;
+		this.refs.password.valid	= this.refs.password.valid;
+		if (!this.refs.email.valid || !this.refs.password.valid) {
 			this.invalidEmail = true;
 			this.setState({
 				className: 'login invalid'
 			});
+			return;
 		}
+		this.worker.postMessage({
+			action		: 'login',
+			values		: {
+				email		: this.refs.email.value,
+				password	: this.refs.password.value
+			}
+		});
 	}
 	handleChange(value) {
 		this.setState({
@@ -35,21 +55,19 @@ class ProfileLogin extends React.Component {
 		return (
 			<form className={this.state.className} onSubmit={this.handleSubmit}>
 				<h2>Enter your login details</h2>
-				<FormInput
+				<EmailInput
 					label="Email"
-					type="email"
 					required={true}
 					ref="email"
 					onChange={this.handleChange.bind(this)}
 				/>
-				<FormInput
+				<PasswordInput
 					label="Password"
 					ref="password"
 					required={true}
-					type="password"
 				/>
-				<p>
-					<button>Submit</button>
+				<p className="center">
+					<button>Start the fun</button>
 				</p>
 			</form>
 		);
@@ -59,33 +77,22 @@ class ProfileLogin extends React.Component {
 class FormInput extends React.Component{
 	constructor(props) {
 		super(props);
+		this.type = 'text';
 		this.state = {
-			value: '',
-			valid: props.valid === undefined ? true : props.valid
+			value	: '',
+			valid	: props.valid === undefined ? true : props.valid
 		};
 	}
-	/**
-	 * Retursn the current field value
-	 * @returns {Boolean}
-	 */
-	getValue()
-	{
+	get value() {
 		return this.state.value;
-	}
-	isValid()
-	{
+	};
+	get valid() {
 		if (this.props.required && !this.state.value) {
 			return false;
 		}
 		return true;
 	}
-	/**
-	 * Sets the valid state
-	 * @param {Boolean} val
-	 * @returns {Void}
-	 */
-	setValid(val)
-	{
+	set valid (val)	{
 		this.setState({
 			valid: val
 		});
@@ -114,10 +121,24 @@ class FormInput extends React.Component{
 					{this.props.label &&
 						<span>{this.props.label}</span>
 					}
-					<input type={this.props.type || 'text'} onChange={this.handleChange.bind(this)} />
+					<input type={this.type} onChange={this.handleChange.bind(this)} />
 				</div>
 			</label>
 		);
+	}
+};
+
+class EmailInput extends FormInput{
+	constructor(props) {
+		super(props);
+		this.type = 'email';
+	}
+};
+
+class PasswordInput extends FormInput{
+	constructor(props) {
+		super(props);
+		this.type = 'password';
 	}
 };
 
