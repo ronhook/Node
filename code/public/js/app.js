@@ -1,26 +1,23 @@
-
+// Load the navigation
 let worker = new Worker('/js/worker.js?v=1');
-
 worker.addEventListener('message', function(e) {
 	let result = e.data;
-	//console.log('Result: ', result);
 	if (!result.success) {
 		console.log('There was an error');
 	} else {
-		//console.log(e.data);
 		let html = "<ul>", link;
 		for (let button in e.data.nav) {
 			link = e.data.nav[button].uri ? '#' + e.data.nav[button].uri : '';
 			html += "<li><a class=\"" + button + "\" href=\"/" + link + "\">" + e.data.nav[button].title + "</li>"
 		}
 		html += "</ul>";
-
 		Q.select("nav").html(html);
 		Q.select("a").on("click", doRoute);
 
 	}
 });
 
+// Load the background image
 let static_worker = new Worker('/js/static.js');
 static_worker.addEventListener('message', function(e) {
 	let result = e.data;
@@ -45,12 +42,12 @@ window.onload = function() {
 		url: "/images/dots.png"
 	});
 
-	//console.log(location.hash);
-	if (location.hash) {
+	//if (location.hash) {
 		pageRouter();
-	}
+	//}
 }
 
+// trigger the page view
 function doRoute(e){
 	let target = Q.select(e.target);
 	let hash = location.hash;
@@ -65,14 +62,13 @@ function doRoute(e){
 	}
 }
 
+// initiates a page view
 pageRouter = function() {
 	let hash = location.hash;
-
 	if (hash) {
+		// get the top level route
 		let args = hash.slice(1).split('/');
 		let route = args.shift();
-		//console.log(route, args);
-		//console.log('Route: ', route);
 		switch (route) {
 			case 'login':
 				openLogin(args)
@@ -83,24 +79,29 @@ pageRouter = function() {
 		}
 	} else {
 		homePage();
-		//console.log('Gone home for the day...');
 	}
 }
 
 window.onhashchange = pageRouter;
 
-function viewsPage() {
-	Q.select('.page-body').html('<p>Views</p><pre>' + JSON.stringify(arguments)) + '</pre>';
+// open the views page view (shows full page laod cont in session)
+function viewsPage(views) {
+	Q.select('h1').text('Views');
+	Q.select('.page-body').html('<h2>Tracking your every move...</h2><p>You have opened this page ' + views + ' times this session.</p>');
+	document.title = 'Views (' + views + ')';
 }
+
+// open the home page view
 function homePage() {
 	history.pushState({path: '/'}, 'Home', '/');
 	Q.select('h1').text('Home');
-	Q.select('.page-body').html('<p>Home</p>');
-	//history.pushState({path: '/'}, 'Home', '/');
+	Q.select('.page-body').html('<p>Home is where the heart is</p>');
+	document.title = 'Node';
 }
 
+// open the login view
 function openLogin() {
 	Q.select('h1').text('Login');
 	renderProfileLogin(document.getElementById('page-body'));
-	//history.pushState({path: '#login'}, 'Login', '#login');
+	document.title = 'Login';
 }

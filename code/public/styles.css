@@ -3,7 +3,7 @@
   --white: rgba(255,255,255,.8);
 }
 * {
-	font-family: sans-serif;
+	font-family: 'Merriweather', serif;
 	color: #333;
 	box-sizing: border-box;
 }
@@ -12,17 +12,21 @@ html{
 	width: 100%;
 	min-height: 100%;
 	min-width: 100%;
+	font-size: 18px;
 }
 h1 {
 	color: var(--white);
 	font-weight: normal;
+}
+input, button{
+	font-size: 18px;
 }
 body {
 	padding: 0;
 	margin: 0;
 	height: 100%;
 	width: 100%;
-	font-size: 16px;
+	font-size: 18px;
 	position: relative;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -88,7 +92,6 @@ nav ul li{
 	margin-right: 20px;
 	margin-top: 20px;
 	background-color: var(--main-blue);
-	padding: 12px 20px;
 	border-radius: 4px;
 	overflow: hidden;
 }
@@ -98,6 +101,7 @@ nav ul li a{
 	text-transform: uppercase;
 	transition: transform 1s, color 1s;
 	cursor: default;
+	padding: 12px 20px;
 }
 nav ul li:hover a{
 	transform: scale(1.2);
@@ -112,12 +116,21 @@ label span{
 	display: inline-block;
 	width: 90px;
 }
+.center {
+	text-align: center;
+}
+form p{
+	margin-top: 5px;
+	margin-bottom: 0;
+}
 form button{
 	display: inline-block;
-	margin-left: 110px;
+	margin: 0 auto;
+	width: 100%;
 	border: 1px solid var(--main-blue);
+	border-width: 1px 0 0 0;
 	background-color: rgba(25, 133, 195, 0.69);
-	padding: 5px 10px;
+	padding: 10px;
 	font-weight: normal;
 	color: #fff;
 	letter-spacing: 1px;
@@ -128,7 +141,7 @@ form button{
 	padding: 5px 8px;
 }
 label > div{
-	border: 1px dashed #fff;
+	border: 1px dashed rgba(0,0,0,.00);
 	padding: 8px;
 }
 label.invalid > div{
@@ -138,12 +151,27 @@ label.invalid > div{
 form.login{
 	margin: 40px auto;
     width: 400px;
+	border: 1px solid var(--main-blue);
+    background: rgba(0,0,0,.05);
 }
 form.login input{
 	width: 270px;
+	border-width: 0 0 1px 0;
+	border-color: rgba(0,0,0,.2);
+	border-style: dashed;
+	background: transparent;
+	outline: none;
+}
+form.login input:invalid{
+	border-color: red;
 }
 form.login h2{
 	text-align: center;
+    background: rgba(0,0,0,.6);
+	color: #fff;
+	margin: 0;
+	padding: 12px;
+	font-weight: normal;
 }
 @media (max-width: 1600px) {
 	.container{
