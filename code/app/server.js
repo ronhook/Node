@@ -9,7 +9,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 let hour	= 3600000;
 
 router.use(function(req, res, next) {
-	console.log("method: " + req.method);
+	//console.log("method: " + req.method);
 	next();
 });
 
@@ -35,15 +35,9 @@ router.get("/profile/*", function(req, res){
 });
 
 router.post("/profile/*", function(req, res){
-	//let nav = require("./profile");
-	//let handler = nav.createNav();
-	res.json({
-		login	: true,
-		id		: "dsffds7fsd9",
-		email	: req.body.email,
-		password	: req.body.password,
-		money	: 56
-	});
+	let profile = require("./profile");
+	let handler = profile.createProfile();
+	res.json(handler.doPostRoute(req));
 });
 
 router.get("*", function(req, res){

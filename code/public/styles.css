@@ -7,6 +7,11 @@
 	color: #333;
 	box-sizing: border-box;
 }
+code {
+	font-family: 'Share Tech Mono', monospace;
+	white-space: nowrap;
+	color: rgb(237, 155, 110);
+}
 html{
 	height: 100%;
 	width: 100%;
@@ -76,6 +81,9 @@ a {
 	background-color: #111;
 	color: rgba(255,255,255,.8);
 	padding: 20px;
+}
+.hidden {
+	display: none;
 }
 nav{
 	position: absolute;
@@ -148,11 +156,63 @@ label.invalid > div{
 	border: 1px dashed red;
 	background-color: rgba(243, 243, 187, 0.54);
 }
+.log-window .instructions{
+	width: 400px;
+	margin: 40px auto;
+	font-size: 90%;
+}
+.log-window .instructions a{
+	display: block;
+	text-align: right;
+}
+.log-window .instructions a:after{
+	content: '\21B5';
+	transform: scaleX(-1) rotate(90deg);
+	display: inline-block;
+	margin-left: 5px;
+	font-size: 215%;
+	vertical-align: sub;
+	line-height: 0;
+	margin-right: -20px;
+}
+.float-box{
+	width: 50%;
+}
+.float-box.left{
+	width: 73%;
+	float: left;
+	padding-right: 5px;
+}
+.float-box.right{
+	width: 27%;
+	float: right;
+	padding-right: 20px;
+}
+.clear{
+	clear: both;
+}
+div.logout{
+	margin: 40px auto;
+    width: 400px;
+	border: 1px solid var(--main-blue);
+	padding-top: 55px;
+	position: relative;
+    background: rgba(0,0,0,.05);
+}
+div.logout p{
+	text-align: center;
+	padding: 30px;
+}
+div.logout.success h2{
+	background: rgb(105, 137, 83);
+}
 form.login{
 	margin: 40px auto;
     width: 400px;
 	border: 1px solid var(--main-blue);
     background: rgba(0,0,0,.05);
+	padding-top: 55px;
+	position: relative;
 }
 form.login input{
 	width: 270px;
@@ -165,13 +225,33 @@ form.login input{
 form.login input:invalid{
 	border-color: red;
 }
-form.login h2{
+form.login h2, div.logout h2{
 	text-align: center;
     background: rgba(0,0,0,.6);
-	color: #fff;
 	margin: 0;
 	padding: 12px;
 	font-weight: normal;
+	height: 55px;
+	position: absolute;
+	color: #fff;
+	top: 0;
+	left: 0;
+	width: 100%;
+	transition: background .8s, height .5s;
+}
+form.login.success h2{
+	background: rgb(105, 137, 83);
+	height: 100%;
+	z-index: 100;
+}
+form.login.fail h2{
+	background: rgb(146, 8, 57);
+}
+form.login h2 div{
+	position: relative;
+	color: #fff;
+	transform: translateY(-50%);
+	top: 50%;
 }
 @media (max-width: 1600px) {
 	.container{
@@ -183,5 +263,21 @@ form.login h2{
 	}
 	.sidebar, .sidebar-2{
 		display: none;
+	}
+}
+@media (max-width: 600px) {
+	.header{
+		padding: 15px;
+	}
+	nav{
+		text-align: center;
+		position: relative;
+	}
+	nav ul li{
+		margin-top: 0;
+	}
+	h1{
+		text-align: center;
+		margin-bottom: 10px;
 	}
 }

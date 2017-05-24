@@ -33,10 +33,8 @@ window.onload = function() {
 	Q.select("nav li").on("click", function(node){
 		window.location = Q.select(this).find("a").prop("href");
 	});
-	worker.postMessage({
-		uri: '/nav',
-		method: 'get'
-	});
+
+	getNav();
 
 	static_worker.postMessage({
 		url: "/images/dots.png"
@@ -45,6 +43,13 @@ window.onload = function() {
 	//if (location.hash) {
 		pageRouter();
 	//}
+}
+
+function getNav(){
+	worker.postMessage({
+		uri: '/nav',
+		method: 'get'
+	});
 }
 
 // trigger the page view
@@ -76,6 +81,12 @@ pageRouter = function() {
 			case 'views':
 				viewsPage(args)
 				break;
+			case 'profile':
+				viewProfile(args);
+				break;
+			case 'logout':
+				doLogout(args);
+				break;
 		}
 	} else {
 		homePage();
@@ -83,6 +94,14 @@ pageRouter = function() {
 }
 
 window.onhashchange = pageRouter;
+
+// open the profile page view
+function viewProfile(){
+	// :TODO: check login status
+	Q.select('h1').text('Profile');
+	Q.select('.page-body').html('<h2>You know who you are</h2><p>I don\'t have describe you to yourself</p>');
+	document.title = 'Profile';
+}
 
 // open the views page view (shows full page laod cont in session)
 function viewsPage(views) {
@@ -95,13 +114,22 @@ function viewsPage(views) {
 function homePage() {
 	history.pushState({path: '/'}, 'Home', '/');
 	Q.select('h1').text('Home');
-	Q.select('.page-body').html('<p>Home is where the heart is</p>');
+	Q.select('.page-body').html('<h2>Home is where the heart is</h2><p>If you\'re an Egyptian mummy, that means it\'s in a small jar, buried under 2,000 years of sand, and trodden over by camels and tourists.</p>');
 	document.title = 'Node';
 }
 
 // open the login view
 function openLogin() {
+	// :TODO: check login status
 	Q.select('h1').text('Login');
 	renderProfileLogin(document.getElementById('page-body'));
-	document.title = 'Login';
+	document.title = 'Log In';
+}
+
+// log out of the app
+function doLogout() {
+	// :TODO: check login status
+	Q.select('h1').text('Log Out');
+	renderProfileLogout(document.getElementById('page-body'));
+	document.title = 'Log Out';
 }

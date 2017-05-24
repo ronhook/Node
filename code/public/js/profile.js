@@ -1,8 +1,7 @@
 self.addEventListener('message', function(e) {
 	let response = {
 		response	: false,
-		data		: e.data,
-		error		: "nope"
+		data		: e.data
 	};
 	if (e.data.action){
 		response.success = true;
@@ -20,7 +19,7 @@ self.addEventListener('message', function(e) {
 });
 
 function post(url, data){
-	console.log('data:', data);
+	//console.log('data:', data);
 	return new Promise(function(resolve, reject){
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
