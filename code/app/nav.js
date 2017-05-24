@@ -15,10 +15,11 @@ Nav = function(){
 			home	: this.button('home', ''),
 			views	: this.button('views (' + req.session.views + ')', 'views/' + req.session.views)
 		};
-		if (ses.logged_in) {
+		if (ses.loggedIn) {
 			nav.profile = this.button('profile', 'profile');
+			nav.logout = this.button('log out', 'logout');
 		} else {
-			nav.login = this.button('login', 'login');
+			nav.login = this.button('log in', 'login');
 		}
 		return nav;
 	};
