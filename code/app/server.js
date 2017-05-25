@@ -1,12 +1,15 @@
-let express = require("express");
-let app		= express();
-let router	= express.Router();
-let session = require("express-session");
-let secret	= 'fdsfdsfdsfds fdsfdsf dsf dsw4564356tr4egtrefgdf';
-let bodyParser = require('body-parser');
+let express		= require("express");
+let app			= express();
+let router		= express.Router();
+let session		= require("express-session");
+let secret		= 'fdsfdsfdsfds fdsfdsf dsf dsw4564356tr4egtrefgdf';
+let profile		= require("./profile");
+let bodyParser	= require('body-parser');
+let hour		= 3600000;
+global.pro		= profile.createProfile();
+
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: false }));
-let hour	= 3600000;
 
 router.use(function(req, res, next) {
 	//console.log("method: " + req.method);
@@ -35,9 +38,7 @@ router.get("/profile/*", function(req, res){
 });
 
 router.post("/profile/*", function(req, res){
-	let profile = require("./profile");
-	let handler = profile.createProfile();
-	res.json(handler.doPostRoute(req));
+	res.json(pro.doPostRoute(req));
 });
 
 router.get("*", function(req, res){
